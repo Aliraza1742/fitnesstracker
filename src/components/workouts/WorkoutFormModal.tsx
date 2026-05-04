@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import {
-  View,
+import { View,
   Text,
   StyleSheet,
   Modal,
   TouchableOpacity,
   ScrollView,
-  Alert,
   KeyboardAvoidingView,
   Platform,
-  Dimensions,
-} from 'react-native';
+  Dimensions } from 'react-native';
 import { useTheme } from '../../hooks/useTheme';
 import { InputField } from '../common/InputField';
 import { AuthButton } from '../common/AuthButton';
+import { X, Plus } from 'lucide-react-native';
+import { customAlert } from '../../utils/alert';
+
 
 const { width } = Dimensions.get('window');
 
@@ -87,7 +87,7 @@ export const WorkoutFormModal: React.FC<WorkoutFormModalProps> = ({
 
     if (invalidExercises.length > 0) {
       console.log('Validation failed - invalid exercises:', invalidExercises);
-      Alert.alert(
+      customAlert(
         'Validation Error',
         'Please make sure all exercises have a name and a valid duration (minimum 1 minute).',
       );
@@ -172,7 +172,7 @@ export const WorkoutFormModal: React.FC<WorkoutFormModalProps> = ({
                     { color: theme.colors.onSurface || '#666' },
                   ]}
                 >
-                  ✕
+                  <X size={16} color={theme.colors.onSurface || '#666'} />
                 </Text>
               </TouchableOpacity>
             </View>
@@ -304,7 +304,7 @@ export const WorkoutFormModal: React.FC<WorkoutFormModalProps> = ({
                       { backgroundColor: theme.colors.primary },
                     ]}
                   >
-                    <Text style={styles.addIconText}>+</Text>
+                    <Plus size={16} color={theme.colors.white} />
                   </View>
                   <Text
                     style={[

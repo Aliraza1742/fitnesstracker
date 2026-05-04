@@ -2,13 +2,26 @@ import React from 'react';
 import { useTheme } from '../hooks/useTheme';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Ionicons from 'react-native-vector-icons/Ionicons'; // Import Ionicons
+// import Ionicons from 'react-native-vector-icons/Ionicons';
+// import IconFallback from '../components/common/IconFallback';
+import { 
+  LayoutDashboard, 
+  Dumbbell, 
+  Apple, 
+  User, 
+  Settings,
+  LogOut
+} from 'lucide-react-native';
+
+
 import { DashboardScreen } from '../screens/dashboard/Dashboard';
 import { WorkoutsScreen } from '../screens/workouts/Workouts';
 import { WorkoutDetailScreen } from '../screens/workouts/WorkoutDetail';
 import { ProfileScreen } from '../screens/profile/Profile';
 import { SettingsScreen } from '../screens/settings/Settings';
+import { NutritionScreen } from '../screens/nutrition/NutritionScreen';
 import { MainDrawerParamList } from './types';
+import { CustomDrawerContent } from './DrawerContent';
 
 const Drawer = createDrawerNavigator<MainDrawerParamList>();
 const Stack = createNativeStackNavigator();
@@ -27,37 +40,47 @@ export const MainNavigator: React.FC = () => {
   return (
     <Drawer.Navigator
       initialRouteName="Dashboard"
+      drawerContent={(props) => <CustomDrawerContent {...props} />}
       screenOptions={{
         headerShown: true,
         drawerType: 'front',
         headerStyle: {
-          backgroundColor: theme.colors.primaryLight,
-          borderBottomWidth: 0.8,
+          backgroundColor: theme.colors.surface,
+          borderBottomWidth: 1,
           borderBottomColor: theme.colors.outline,
+          shadowColor: theme.colors.black,
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.05,
+          shadowRadius: 4,
+          elevation: 2,
         },
         headerTintColor: theme.colors.onBackground,
         headerTitleStyle: {
-          fontWeight: '600',
+          fontWeight: '700',
           fontSize: 18,
+          color: theme.colors.onBackground,
         },
         drawerStyle: {
-          backgroundColor: theme.colors.primaryLight,
-          width: 250,
-          borderTopRightRadius: 30,
-          borderColor: theme.colors.outline,
-          borderWidth: 2.3,
-          borderBottomRightRadius: 30,
-          paddingVertical: 30,
+          backgroundColor: theme.colors.surface,
+          width: 280,
+          borderTopRightRadius: 24,
+          borderBottomRightRadius: 24,
+          paddingVertical: 20,
+          shadowColor: theme.colors.black,
+          shadowOffset: { width: 2, height: 0 },
+          shadowOpacity: 0.1,
+          shadowRadius: 8,
+          elevation: 5,
         },
         drawerLabelStyle: {
-          fontSize: 15,
-          fontWeight: '500',
-          color: theme.colors.black,
-          marginLeft: 5,
+          fontSize: 16,
+          fontWeight: '600',
+          color: theme.colors.onBackground,
+          marginLeft: 12,
         },
         drawerActiveBackgroundColor: theme.colors.primary + '20',
-        drawerActiveTintColor: theme.colors.white,
-        drawerInactiveTintColor: theme.colors.onSurface,
+        drawerActiveTintColor: theme.colors.primary,
+        drawerInactiveTintColor: theme.colors.grey500,
       }}
     >
       <Drawer.Screen
@@ -65,7 +88,7 @@ export const MainNavigator: React.FC = () => {
         component={DashboardScreen}
         options={{
           drawerIcon: ({ color, size }) => (
-            <Ionicons name="grid-outline" size={size} color={color} />
+            <LayoutDashboard size={size} color={color} />
           ),
           title: 'Dashboard',
         }}
@@ -75,9 +98,20 @@ export const MainNavigator: React.FC = () => {
         component={WorkoutsStack}
         options={{
           drawerIcon: ({ color, size }) => (
-            <Ionicons name="barbell-outline" size={size} color={color} />
+            <Dumbbell size={size} color={color} />
           ),
           title: 'Workouts',
+        }}
+      />
+      
+      <Drawer.Screen
+        name="Nutrition"
+        component={NutritionScreen}
+        options={{
+          drawerIcon: ({ color, size }) => (
+            <Apple size={size} color={color} />
+          ),
+          title: 'Nutrition',
         }}
       />
 
@@ -86,7 +120,7 @@ export const MainNavigator: React.FC = () => {
         component={ProfileScreen}
         options={{
           drawerIcon: ({ color, size }) => (
-            <Ionicons name="person-outline" size={size} color={color} />
+            <User size={size} color={color} />
           ),
           title: 'Profile',
         }}
@@ -96,7 +130,7 @@ export const MainNavigator: React.FC = () => {
         component={SettingsScreen}
         options={{
           drawerIcon: ({ color, size }) => (
-            <Ionicons name="settings-outline" size={size} color={color} />
+            <Settings size={size} color={color} />
           ),
           title: 'Settings',
         }}

@@ -2,10 +2,12 @@ import notifee, {
   AndroidImportance,
   RepeatFrequency,
   TriggerType,
-  TimestampTrigger, // 👈 add this
+  TimestampTrigger,
 } from '@notifee/react-native';
-import { Platform, Alert } from 'react-native';
+import { Platform } from 'react-native';
 import { settingsService } from '../utils/settings';
+import { customAlert } from '../utils/alert';
+
 
 class NotificationService {
   private hasPermission: boolean = false;
@@ -42,8 +44,8 @@ async sendProgressUpdate(caloriesBurned: number, workoutsCompleted: number, dura
   const durationText = hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`;
   
   await this.scheduleLocalNotification(
-    '📊 Progress Update',
-    `You burned ${caloriesBurned} calories in ${workoutsCompleted} workouts! Total time: ${durationText}. Keep it up! 🎯`,
+    'Progress update',
+    `You burned ${caloriesBurned} calories in ${workoutsCompleted} workouts. Total time: ${durationText}. Keep it up.`,
     { 
       type: 'progress_update',
       calories: caloriesBurned,
@@ -143,7 +145,7 @@ async sendProgressUpdate(caloriesBurned: number, workoutsCompleted: number, dura
 
       await notifee.createTriggerNotification(
         {
-          title: '🏋️‍♂️ Workout Reminder',
+          title: 'Workout reminder',
           body: `Time for your ${workoutName} workout!`,
           data: { type: 'workout_reminder', workoutName },
           android: {
@@ -165,11 +167,11 @@ async sendProgressUpdate(caloriesBurned: number, workoutsCompleted: number, dura
   async scheduleDailyMotivation() {
     try {
       const messages = [
-        "Your body can stand almost anything. It's your mind that you have to convince. 💪",
-        "The only bad workout is the one that didn't happen. 🏃‍♂️",
-        "Don't stop when you're tired. Stop when you're done. 🔥",
-        "Strength doesn't come from what you can do. It comes from overcoming the things you once thought you couldn't. 🌟",
-        'Every day is a new opportunity to become a better version of yourself. 🚀',
+        "Your body can stand almost anything. It's your mind that you have to convince.",
+        "The only bad workout is the one that didn't happen.",
+        "Don't stop when you're tired. Stop when you're done.",
+        "Strength doesn't come from what you can do. It comes from overcoming the things you once thought you couldn't.",
+        'Every day is a new opportunity to become a better version of yourself.',
       ];
 
       const randomMessage =
@@ -194,7 +196,7 @@ async sendProgressUpdate(caloriesBurned: number, workoutsCompleted: number, dura
 
       await notifee.createTriggerNotification(
         {
-          title: '💪 Daily Motivation',
+          title: 'Daily motivation',
           body: randomMessage,
           data: { type: 'daily_motivation' },
           android: {
@@ -221,10 +223,71 @@ async sendProgressUpdate(caloriesBurned: number, workoutsCompleted: number, dura
     }
   }
 
-  // Setup notification handlers (empty since we're not using Firebase)
+  // Test methods for notification functionality
+  async testWorkoutReminder(): Promise<void> {
+    try {
+      const testTime = new Date();
+      testTime.setSeconds(testTime.getSeconds() + 5); // Schedule 5 seconds from now
+      await this.scheduleWorkoutReminder(testTime, 'Test Workout');
+      customAlert('Success', 'Test workout reminder scheduled for 5 seconds from now');
+    } catch (error) {
+      console.error('Error sending test workout reminder:', error);
+      customAlert('Error', 'Failed to send test workout reminder');
+    }
+  }
+
+  async testProgressUpdate(): Promise<void> {
+    try {
+      await this.scheduleLocalNotification(
+        'Test Progress Update',
+        'You burned 500 calories in 3 workouts this week. Keep it up!',
+        { type: 'progress_update' },
+        'progress_updates'
+      );
+      customAlert('Success', 'Test progress update notification sent');
+    } catch (error) {
+      console.error('Error sending test progress update:', error);
+      customAlert('Error', 'Failed to send test progress update');
+    }
+  }
+
+  async testMotivationalMessage(): Promise<void> {
+    try {
+      await this.scheduleLocalNotification(
+        'Daily Motivation',
+        'You\'re doing amazing! Keep pushing towards your fitness goals! 💪',
+        { type: 'motivational_message' },
+        'motivational_messages'
+      );
+      customAlert('Success', 'Test motivational message sent');
+    } catch (error) {
+      console.error('Error sending test motivational message:', error);
+      customAlert('Error', 'Failed to send test motivational message');
+    }
+  }
+
+  // Setup notification handlers
   setupNotificationHandlers() {
-    console.log('Notification handlers setup (Notifee only)');
+    console.log('Setting up Notifee foreground event handlers...');
+    return notifee.onForegroundEvent(({ type, detail }) => {
+      // type: EventType
+      switch (type) {
+        case 1: // DISMISSED
+          console.log('User dismissed notification', detail.notification);
+          break;
+        case 2: // PRESS
+          console.log('User pressed notification', detail.notification);
+          // Here we could navigate to a specific screen based on detail.notification.data
+          break;
+      }
+    });
   }
 }
+
+// Background handler function to be registered in index.js
+export const notifeeBackgroundHandler = async ({ type, detail }: any) => {
+  console.log('Notifee background event received', type, detail.notification);
+  // Perform background tasks if needed
+};
 
 export const notificationService = new NotificationService();

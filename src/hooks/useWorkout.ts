@@ -1,1 +1,1 @@
-export { useWorkout } from '../context/Workout';
+export { useWorkoutStore as useWorkout } from '../store/useWorkoutStore';

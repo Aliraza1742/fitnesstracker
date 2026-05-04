@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { PencilLine } from 'lucide-react-native';
 import { useTheme } from '../../hooks/useTheme';
 
 interface ProfileAvatarProps {
@@ -88,7 +89,7 @@ export const ProfileAvatar: React.FC<ProfileAvatarProps> = ({
         
         {editable && (
           <View style={[styles.editBadge, { backgroundColor: theme.colors.primary }]}>
-            <Text style={[styles.editText, { color: theme.colors.white }]}>✏️</Text>
+            <PencilLine size={14} color={theme.colors.white} />
           </View>
         )}
       </View>

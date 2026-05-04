@@ -36,7 +36,6 @@ export const AuthButton: React.FC<AuthButtonProps> = ({
       style.backgroundColor = theme.colors.primary;
     }
 
-    // ✅ border
     if (borderColor) {
       style.borderWidth = 2;
       style.borderColor = borderColor;
@@ -84,17 +83,24 @@ export const AuthButton: React.FC<AuthButtonProps> = ({
 
 const styles = StyleSheet.create({
   button: {
-    borderRadius: 25,
-    padding: 16,
+    borderRadius: 16,
+    minHeight: 56,
+    paddingHorizontal: 20,
+    paddingVertical: 14,
     alignItems: 'center',
     justifyContent: 'center',
-    marginVertical: 8,
+    marginVertical: 10,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 3,
   },
   buttonDisabled: {
     opacity: 0.6,
   },
   buttonText: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: '700',
+    letterSpacing: 0.2,
   },
 });

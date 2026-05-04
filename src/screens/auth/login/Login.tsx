@@ -1,13 +1,12 @@
 import React from 'react';
-import {
+import { 
   View,
   Text,
-  Image,
   ScrollView,
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
-  Alert,
+  Image 
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -19,6 +18,7 @@ import { InputField } from '../../../components/common/InputField';
 import { AuthButton } from '../../../components/common/AuthButton';
 import LinearGradient from 'react-native-linear-gradient';
 import { styles } from './styles';
+import { customAlert } from '../../../utils/alert';
 
 type LoginScreenNavigationProp = NativeStackNavigationProp<
   AuthStackParamList,
@@ -27,7 +27,7 @@ type LoginScreenNavigationProp = NativeStackNavigationProp<
 
 export const LoginScreen: React.FC = () => {
   const navigation = useNavigation<LoginScreenNavigationProp>();
-  const { theme } = useTheme();
+  const { theme, isDark } = useTheme();
   const { login, isLoading: authLoading } = useAuth();
   const { formData, errors, handleInputChange, validateForm } = useLoginForm();
 
@@ -36,13 +36,13 @@ export const LoginScreen: React.FC = () => {
 
     try {
       await login(formData);
-      Alert.alert('Login Successful 🎉', 'Welcome back! You are now logged in.');
+      customAlert('Login successful', 'Welcome back! You are now logged in.');
     } catch (error) {
       const errorMessage =
         error instanceof Error
           ? error.message
           : 'Invalid credentials. Please try again.';
-      Alert.alert('Login Failed ❌', errorMessage, [{ text: 'Try Again' }]);
+      customAlert('Login failed', errorMessage, [{ text: 'Try Again' }]);
     }
   };
 
@@ -52,81 +52,63 @@ export const LoginScreen: React.FC = () => {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       <LinearGradient
-        colors={theme.colors.gradients.primary}
+        colors={theme.colors.gradients.auth}
         style={styles.container}
       >
-        <ScrollView contentContainerStyle={styles.scrollContent}>
+        <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+          <View style={styles.headerSpacer} />
+          
           <View style={styles.content}>
-            <Image
-              source={require('../../../assets/logo.png')}
-              style={styles.logo}
-              resizeMode="contain"
-            />
-
-            <Text style={[styles.appTitle, { color: theme.colors.primary }]}>
-              FitTrack
-            </Text>
-            <Text style={[styles.tagline, { color: theme.colors.onSurface }]}>
-              Your Fitness Partner!
-            </Text>
-            <Text style={[styles.subtitle, { color: theme.colors.onSurface }]}>Sign in to continue your journey</Text>
-
-            <View style={styles.form}>
-              <InputField
-                label="Email Address"
-                placeholder="Enter your email"
-                value={formData.email}
-                onChangeText={text => handleInputChange('email', text)}
-                error={errors.email}
-                keyboardType="email-address"
-                autoCapitalize="none"
+            <View style={styles.brandContainer}>
+              <Image
+                source={require('../../../assets/images/logo.png')}
                 style={[
-                  styles.input,
-                  {
-                    borderColor: errors.email
-                      ? theme.colors.error
-                      : theme.colors.primary,
-                  },
+                  styles.logoImage,
+                  isDark && { tintColor: theme.colors.primary }
                 ]}
+                resizeMode="contain"
               />
-
-              <InputField
-                label="Password"
-                placeholder="Enter your password"
-                value={formData.password}
-                onChangeText={text => handleInputChange('password', text)}
-                error={errors.password}
-                secureTextEntry
-                style={[
-                  styles.input,
-                  {
-                    borderColor: errors.password
-                      ? theme.colors.error
-                      : theme.colors.primary,
-                  },
-                ]}
-              />
-
-              <AuthButton
-                title="Sign In"
-                onPress={handleLogin}
-                loading={authLoading}
-              />
+              <Text style={[styles.appTitle, { color: theme.colors.onBackground }]}>FitTrack</Text>
+              <Text style={[styles.tagline, { color: theme.colors.grey500 }]}>Elevate your fitness journey</Text>
             </View>
 
-            <View style={styles.footer}>
-              <Text
-                style={[styles.footerText, { color: theme.colors.onSurface }]}
-              >
-                Don't have an account?{' '}
-              </Text>
-              <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-                <Text
-                  style={[styles.footerLink, { color: theme.colors.black }]}
-                >
-                  Sign Up
-                </Text>
-              </TouchableOpacity>
+            <View style={[styles.formContainer, { backgroundColor: theme.colors.surface }]}>
+              <Text style={[styles.formTitle, { color: theme.colors.onBackground }]}>Welcome Back</Text>
+              <Text style={[styles.formSubtitle, { color: theme.colors.grey500 }]}>Sign in to continue tracking your progress</Text>
+
+              <View style={styles.form}>
+                <InputField
+                  label="Email Address"
+                  placeholder="name@example.com"
+                  value={formData.email}
+                  onChangeText={text => handleInputChange('email', text)}
+                  error={errors.email}
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                />
+
+                <InputField
+                  label="Password"
+                  placeholder="••••••••"
+                  value={formData.password}
+                  onChangeText={text => handleInputChange('password', text)}
+                  secureTextEntry
+                  error={errors.password}
+                />
+
+                <TouchableOpacity style={styles.forgotPassword}>
+                  <Text style={[styles.forgotPasswordText, { color: theme.colors.primary }]}>Forgot Password?</Text>
+                </TouchableOpacity>
+
+                <AuthButton title="Sign In" onPress={handleLogin} loading={authLoading} />
+              </View>
+
+              <View style={styles.footer}>
+                <Text style={[styles.footerText, { color: theme.colors.grey600 }]}>New to FitTrack? </Text>
+                <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+                  <Text style={[styles.footerLink, { color: theme.colors.primary }]}>Create Account</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </ScrollView>

@@ -87,10 +87,10 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
            style={[
               styles.modalContent,
               {
-                backgroundColor: theme.colors.primaryLight,
+                backgroundColor: theme.colors.surface,
                 shadowColor: theme.colors.black,
-                borderColor: theme.colors.info,
-                borderWidth: 2.0,
+                borderColor: theme.colors.primary,
+                borderWidth: 1.5,
               },
             ]}
           >
@@ -105,7 +105,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                 <Text
                   style={[styles.closeText, { color: theme.colors.black }]}
                 >
-                  ×
+                  X
                 </Text>
               </TouchableOpacity>
             </View>

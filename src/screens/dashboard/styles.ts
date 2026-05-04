@@ -8,6 +8,25 @@ export const styles = StyleSheet.create({
     padding: 20,
     paddingBottom: 100,
   },
+  heroCard: {
+    marginTop: 8,
+    marginBottom: 18,
+  },
+  heroRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 14,
+  },
+  heroCopy: {
+    flex: 1,
+  },
+  heroLabel: {
+    fontSize: 12,
+    fontWeight: '800',
+    letterSpacing: 1.2,
+    textTransform: 'uppercase',
+    marginBottom: 6,
+  },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -22,21 +41,21 @@ export const styles = StyleSheet.create({
   },
   welcomeText: {
     fontSize: 28,
-    fontWeight: 'bold',
+    fontWeight: '800',
     marginBottom: 8,
+    letterSpacing: -0.5,
   },
   subtitle: {
     fontSize: 16,
-    opacity: 0.8,
+    lineHeight: 22,
   },
   goalSection: {
-    alignItems: 'center',
     marginBottom: 30,
   },
   sectionTitle: {
     fontSize: 20,
-    fontWeight: '600',
-    marginBottom: 16,
+    fontWeight: '700',
+    marginBottom: 14,
   },
   statsGrid: {
     marginBottom: 30,
@@ -65,8 +84,8 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 16,
     marginBottom: 12,
-    borderRadius: 12,
-    backgroundColor: 'rgba(99, 102, 241, 0.05)',
+    borderRadius: 16,
+    backgroundColor: 'rgba(15, 118, 110, 0.06)',
   },
   recentItemContent: {
     flex: 1,
@@ -97,9 +116,5 @@ export const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 4,
     elevation: 6,
-  },
-  addButtonText: {
-    fontSize: 24,
-    fontWeight: 'bold',
   },
 });

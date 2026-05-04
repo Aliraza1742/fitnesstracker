@@ -1,15 +1,19 @@
-// src/screens/Settings/SettingsScreen.tsx
+// src/screens/settings/SettingsScreen.tsx
 import React from 'react';
-import { View, Text, ScrollView, Linking, Alert, Platform } from 'react-native';
+import { View, Text, ScrollView, Linking, Platform } from 'react-native';
 import { useTheme } from '../../hooks/useTheme';
 import { SettingItem } from '../../components/settings/SettingItem';
 import { ThemeSelector } from '../../components/settings/ThemeSelector';
 import { SectionHeader } from '../../components/settings/SectionHeader';
 import { AuthButton } from '../../components/common/AuthButton';
+import { SectionCard } from '../../components/ui/SectionCard';
 import { styles } from './styles';
 import { useSettingsScreen } from './useSettings';
 import LinearGradient from 'react-native-linear-gradient';
 import { useNotifications } from '../../context/Notification';
+import { Bell, ChartColumnIncreasing, MessagesSquare, HeartPulse, Trash2, Mail, Star, FileText, ShieldCheck, Smartphone, Heart } from 'lucide-react-native';
+import { customAlert } from '../../utils/alert';
+
 
 export const SettingsScreen: React.FC = () => {
   const { theme } = useTheme();
@@ -38,7 +42,7 @@ export const SettingsScreen: React.FC = () => {
     if (!hasPermission) {
       const granted = await requestPermissions();
       if (!granted) {
-        Alert.alert(
+        customAlert(
           'Permission Required',
           'Please enable notifications in your device settings to receive workout reminders and progress updates.',
           [
@@ -79,43 +83,51 @@ export const SettingsScreen: React.FC = () => {
   }
 
   return (
-    <LinearGradient colors={theme.colors.gradients.primary} style={styles.container}>
+    <LinearGradient colors={theme.colors.gradients.background} style={styles.container}>
       <ScrollView
         style={styles.container}
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
         <SectionHeader title="Appearance" />
-        <ThemeSelector currentTheme={themePreference} onThemeChange={setThemePreference} />
+        <SectionCard style={styles.section}>
+          <ThemeSelector currentTheme={themePreference} onThemeChange={setThemePreference} />
+        </SectionCard>
 
         <SectionHeader title="Notifications" />
-        
-        {/* Notification Permission Status */}
-        <View style={[
-          styles.permissionBanner,
-          { backgroundColor: hasPermission ? theme.colors.success + '20' : theme.colors.error + '20' }
-        ]}>
-          <Text style={[
-            styles.permissionText,
-            { color: hasPermission ? theme.colors.success : theme.colors.error }
-          ]}>
-            {hasPermission ? '✓ Notifications Enabled' : '⚠ Notifications Disabled'}
-          </Text>
-          {!hasPermission && (
-            <AuthButton
-              title="Enable"
-              onPress={handleNotificationPermission}
-              backgroundColor="transparent"
-              textColor={theme.colors.primary}
-              borderColor={theme.colors.primary}
-              
-            />
-          )}
-        </View>
+        <SectionCard style={styles.section}>
+          <View
+            style={[
+              styles.permissionBanner,
+              { backgroundColor: hasPermission ? theme.colors.success + '12' : theme.colors.error + '12' },
+            ]}
+          >
+            <View>
+              <Text
+                style={[
+                  styles.permissionText,
+                  { color: hasPermission ? theme.colors.success : theme.colors.error },
+                ]}
+              >
+                {hasPermission ? 'Notifications enabled' : 'Notifications disabled'}
+              </Text>
+              <Text style={[styles.permissionDescription]}>
+                Keep reminders and progress updates active so the app can stay useful throughout the week.
+              </Text>
+            </View>
+            {!hasPermission && (
+              <AuthButton
+                title="Enable"
+                onPress={handleNotificationPermission}
+                backgroundColor={theme.colors.primary}
+                textColor={theme.colors.white}
+                borderColor={theme.colors.primary}
+              />
+            )}
+          </View>
 
-        <View style={styles.section}>
           <SettingItem
-            icon="🔔"
+            icon={<Bell />}
             title="Workout Reminders"
             description="Get reminders for your scheduled workouts"
             type="switch"
@@ -124,7 +136,7 @@ export const SettingsScreen: React.FC = () => {
             disabled={!hasPermission}
           />
           <SettingItem
-            icon="📊"
+            icon={<ChartColumnIncreasing />}
             title="Progress Updates"
             description="Weekly progress reports and achievements"
             type="switch"
@@ -133,7 +145,7 @@ export const SettingsScreen: React.FC = () => {
             disabled={!hasPermission}
           />
           <SettingItem
-            icon="💪"
+            icon={<MessagesSquare />}
             title="Motivational Messages"
             description="Daily motivational quotes and tips"
             type="switch"
@@ -141,12 +153,12 @@ export const SettingsScreen: React.FC = () => {
             onValueChange={(value) => handleNotificationSettingWithPermission('motivationalMessages', value)}
             disabled={!hasPermission}
           />
-        </View>
+        </SectionCard>
 
         <SectionHeader title="Privacy & Data" />
-        <View style={styles.section}>
+        <SectionCard style={styles.section}>
           <SettingItem
-            icon="🏥"
+            icon={<HeartPulse />}
             title="Health Data Access"
             description="Connect with Apple Health/Google Fit"
             type="switch"
@@ -154,27 +166,27 @@ export const SettingsScreen: React.FC = () => {
             onValueChange={handleHealthDataSharingChange}
           />
           <SettingItem
-            icon="🗑️"
+            icon={<Trash2 />}
             title="Clear All Data"
             description="Remove all your workouts and settings"
             type="button"
             onPress={handleClearData}
           />
-        </View>
+        </SectionCard>
 
         <SectionHeader title="Support" />
-        <View style={styles.section}>
-          <SettingItem icon="📧" title="Contact Support" description="Get help with the app" type="button" onPress={handleContactSupport} />
-          <SettingItem icon="⭐" title="Rate the App" description="Share your experience" type="button" onPress={handleRateApp} />
-          <SettingItem icon="📝" title="Terms of Service" description="View our terms and conditions" type="button" onPress={() => Linking.openURL('https://fittrack.com/terms')} />
-          <SettingItem icon="🔒" title="Privacy Policy" description="How we handle your data" type="button" onPress={() => Linking.openURL('https://fittrack.com/privacy')} />
-        </View>
+        <SectionCard style={styles.section}>
+          <SettingItem icon={<Mail />} title="Contact Support" description="Get help with the app" type="button" onPress={handleContactSupport} />
+          <SettingItem icon={<Star />} title="Rate the App" description="Share your experience" type="button" onPress={handleRateApp} />
+          <SettingItem icon={<FileText />} title="Terms of Service" description="View our terms and conditions" type="button" onPress={() => Linking.openURL('https://fittrack.com/terms')} />
+          <SettingItem icon={<ShieldCheck />} title="Privacy Policy" description="How we handle your data" type="button" onPress={() => Linking.openURL('https://fittrack.com/privacy')} />
+        </SectionCard>
 
         <SectionHeader title="About" />
-        <View style={styles.section}>
-          <SettingItem icon="📱" title="Version" description={`${appVersion} (${buildNumber})`} type="info" />
-          <SettingItem icon="❤️" title="Made with" description="React Native & TypeScript" type="info" />
-        </View>
+        <SectionCard style={styles.section}>
+          <SettingItem icon={<Smartphone />} title="Version" description={`${appVersion} (${buildNumber})`} type="info" />
+          <SettingItem icon={<Heart />} title="Made with" description="React Native & TypeScript" type="info" />
+        </SectionCard>
 
         <AuthButton
           title="Logout"
@@ -185,7 +197,7 @@ export const SettingsScreen: React.FC = () => {
         />
 
         <Text style={[styles.footerText, { color: theme.colors.grey500 }]}>
-          © 2024 FitTrack. All rights reserved.
+          FitTrack - Training built for consistency.
         </Text>
       </ScrollView>
     </LinearGradient>

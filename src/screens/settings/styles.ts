@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     paddingBottom: 40,
   },
   section: {
-    marginBottom: 8,
+    marginBottom: 12,
   },
   logoutSection: {
     marginTop: 24,
@@ -19,36 +19,24 @@ export const styles = StyleSheet.create({
   footerText: {
     textAlign: 'center',
     fontSize: 12,
-    opacity: 0.7,
+    marginTop: 16,
   },
-  // Add to your existing styles
-permissionBanner: {
-  flexDirection: 'row',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  padding: 16,
-  borderRadius: 12,
-  marginBottom: 16,
-  marginHorizontal: 16,
-},
-permissionText: {
-  fontSize: 16,
-  fontWeight: '600',
-},
-testSection: {
-  marginTop: 16,
-  padding: 16,
-  backgroundColor: 'rgba(255, 255, 255, 0.1)',
-  borderRadius: 12,
-},
-testDescription: {
-  fontSize: 14,
-  marginBottom: 12,
-  textAlign: 'center',
-},
-testButtons: {
-  flexDirection: 'row',
-  justifyContent: 'space-around',
-  gap: 8,
-},
+  permissionBanner: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    gap: 16,
+    paddingBottom: 6,
+    marginBottom: 8,
+  },
+
+  permissionText: {
+    fontSize: 16,
+    fontWeight: '700',
+    marginBottom: 4,
+  },
+  permissionDescription: {
+    fontSize: 13,
+    lineHeight: 18,
+  },
 });

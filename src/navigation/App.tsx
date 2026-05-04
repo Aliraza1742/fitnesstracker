@@ -11,7 +11,6 @@ import { useTheme } from '../hooks/useTheme';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-// ✅ Fixed Loading Screen
 const LoadingScreen = () => {
   const { theme } = useTheme();
 

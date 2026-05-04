@@ -64,8 +64,8 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
     if (!hasPermission || !notificationSettings.progressUpdates) return;
     
     await notificationService.scheduleLocalNotification(
-      '📊 Weekly Progress',
-      `You burned ${caloriesBurned} calories in ${workoutsCompleted} workouts this week! Keep it up! 🎯`,
+      'Weekly progress',
+      `You burned ${caloriesBurned} calories in ${workoutsCompleted} workouts this week. Keep it up.`,
       { type: 'progress_update' },
       'progress_updates'
     );

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useTheme } from '../../hooks/useTheme';
+import { MoonStar, Settings2, SunMedium } from 'lucide-react-native';
 
 interface ThemeSelectorProps {
   currentTheme: 'light' | 'dark' | 'auto';
@@ -14,9 +15,9 @@ export const ThemeSelector: React.FC<ThemeSelectorProps> = ({
   const { theme } = useTheme();
 
   const themes = [
-    { id: 'light' as const, label: 'Light', icon: '☀️' },
-    { id: 'dark' as const, label: 'Dark', icon: '🌙' },
-    { id: 'auto' as const, label: 'Auto', icon: '⚙️' },
+    { id: 'light' as const, label: 'Light', icon: SunMedium },
+    { id: 'dark' as const, label: 'Dark', icon: MoonStar },
+    { id: 'auto' as const, label: 'Auto', icon: Settings2 },
   ];
 
   return (
@@ -35,12 +36,23 @@ export const ThemeSelector: React.FC<ThemeSelectorProps> = ({
                   currentTheme === themeOption.id
                     ? theme.colors.primary
                     : theme.colors.surface,
-                borderColor: theme.colors.grey300,
+                  borderColor:
+                    currentTheme === themeOption.id
+                      ? theme.colors.primary
+                      : theme.colors.grey200,
+                  shadowColor: theme.colors.grey900,
               },
             ]}
             onPress={() => onThemeChange(themeOption.id)}
           >
-            <Text style={styles.themeIcon}>{themeOption.icon}</Text>
+              <themeOption.icon
+                size={16}
+                color={
+                  currentTheme === themeOption.id
+                    ? theme.colors.white
+                    : theme.colors.primary
+                }
+              />
             <Text
               style={[
                 styles.themeLabel,
@@ -80,10 +92,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 12,
-    borderRadius: 12,
+    paddingVertical: 14,
+    paddingHorizontal: 12,
+    borderRadius: 16,
     borderWidth: 1,
     gap: 8,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.06,
+    shadowRadius: 12,
+    elevation: 2,
   },
   themeIcon: {
     fontSize: 16,

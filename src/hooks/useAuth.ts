@@ -1,1 +1,1 @@
-export { useAuth } from '../context/Auth';
+export { useAuthStore as useAuth } from '../store/useAuthStore';

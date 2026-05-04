@@ -1,15 +1,19 @@
 // Define your light mode color palette
 export const lightColors = {
-  // Primary Colors
-  primary: '#6a43edff', // A confident, energetic indigo
-  primaryDark: '#3931d3ff',
-  primaryLight: '#818CF8',
+  // Primary Colors (Soft, Energizing Greens/Teals)
+  primary: '#10B981', // Emerald 500
+  primaryDark: '#155b45', // Emerald 600
+  primaryLight: '#D1FAE5', // Emerald 100
+
+  // Secondary/Accent Colors (Calm Purples/Blues)
+  secondary: '#6366F1', // Indigo 500
+  accent: '#F59E0B', // Amber 500
 
   // Neutral Colors
   white: '#FFFFFF',
-  grey100: '#F3F4F6',
-  grey200: '#E5E7EB',
-  grey300: '#D1D5DB',
+  grey100: '#F9FAFB',
+  grey200: '#F3F4F6',
+  grey300: '#E5E7EB',
   grey400: '#9CA3AF',
   grey500: '#6B7280',
   grey600: '#4B5563',
@@ -17,45 +21,47 @@ export const lightColors = {
   grey800: '#1F2937',
   grey900: '#111827',
   black: '#000000',
-  outline: '#8d38c9ff',
-
-  
+  outline: '#E5E7EB',
 
   // Semantic Colors
   success: '#10B981',
   error: '#EF4444',
   warning: '#F59E0B',
-  info: '#1b43e4cf',
-
+  info: '#3B82F6',
 
   // Background & Surface Colors
-  background: '#F9FAF9', // Light subtle background
-  surface: '#faf9fbff',
+  background: '#F8FAFC',
+  surface: '#ffffff',
+  surfaceMuted: '#F1F5F9',
   onBackground: '#111827',
-  onSurface: '#000000ff',
+  onSurface: '#4b634b',
 
-  // ✅ Gradient Colors
+  // Gradient Colors
   gradients: {
-    primary: ['#6a92cfdf', '#3d3d41d1'], // Indigo gradient
-    background: ['#F9FAF9', '#E5E7EB'], // Light background gradient
+    primary: ['#10B981', '#3B82F6'],
+    background: ['#29d86c', '#f0fff8'],
+    auth: ['#29d86c', '#EFF6FF'],
   },
 };
 
 // Define your dark mode color palette
 export const darkColors = {
-  ...lightColors, // Spread light colors to ensure all keys exist
+  ...lightColors,
 
   // Override the colors that change in dark mode
-  background: '#111827',
-  surface: '#1F2937',
-  onBackground: '#F3F4F6',
-  onSurface: '#D1D5DB',
+  background: '#0F172A',
+  surface: '#1E293B',
+  surfaceMuted: '#334155',
+  onBackground: '#F8FAFC',
+  onSurface: '#94A3B8',
+  outline: '#334155',
 
-  // ✅ Dark gradients
   gradients: {
-    primary: ['#7873e27c', '#b988ea9d'],
+    primary: ['#10B981', '#34D399'],
+    background: ['#0F172A', '#1E293B'],
+    auth: ['#0F172A', '#0F172A'],
   },
 };
 
-// This type will be useful for theming
+// Type export for color keys
 export type AppColors = keyof typeof lightColors;

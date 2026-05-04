@@ -68,7 +68,7 @@ export const WorkoutCard: React.FC<WorkoutCardProps> = ({ workout, onPress, onDe
               style={[styles.exercise, { color: theme.colors.onSurface }]}
               numberOfLines={1}
             >
-              • {exercise.name} ({exercise.duration}min)
+              - {exercise.name} ({exercise.duration}min)
             </Text>
           ))}
           {workout.exercises.length > 3 && (

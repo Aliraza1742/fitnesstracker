@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from '../../hooks/useTheme';
+import { IconBadge } from '../ui/IconBadge';
 
 interface StatsCardProps {
   title: string;
@@ -22,7 +23,7 @@ export const StatsCard: React.FC<StatsCardProps> = ({ title, value, subtitle, ic
             <Text style={[styles.subtitle, { color: theme.colors.onSurface }]}>{subtitle}</Text>
           )}
         </View>
-        {icon && <View style={styles.iconContainer}>{icon}</View>}
+        {icon && <IconBadge icon={icon} size={44} variant="accent" />}
       </View>
     </View>
   );
@@ -30,13 +31,14 @@ export const StatsCard: React.FC<StatsCardProps> = ({ title, value, subtitle, ic
 
 const styles = StyleSheet.create({
   card: {
-    borderRadius: 16,
-    padding: 20,
-    marginBottom: 16,
-    shadowColor: '#684d9eff',
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
+    borderRadius: 22,
+    padding: 18,
+    marginBottom: 14,
+    borderWidth: 1,
+    borderColor: 'rgba(148, 163, 184, 0.18)',
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.08,
+    shadowRadius: 18,
     elevation: 3,
   },
   content: {
@@ -57,10 +59,5 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 12,
-  },
-  iconContainer: {
-    padding: 8,
-    borderRadius: 12,
-    backgroundColor: 'rgba(99, 102, 241, 0.1)',
   },
 });

@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, Alert } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTheme } from '../../hooks/useTheme';
 import { useWorkout } from '../../hooks/useWorkout';
 import { useAuth } from '../../hooks/useAuth';
 import { AuthButton } from './AuthButton';
 import { WorkoutFormModal } from '../workouts/WorkoutFormModal';
+import { customAlert } from '../../utils/alert';
+
 
 export const WorkoutDebugTest: React.FC = () => {
   const { theme } = useTheme();
@@ -29,12 +31,12 @@ export const WorkoutDebugTest: React.FC = () => {
       ]);
       
       addLog('Workout added successfully!');
-      Alert.alert('Success', 'Workout added manually!');
+      customAlert('Success', 'Workout added manually!');
       
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       addLog(`Error: ${errorMessage}`);
-      Alert.alert('Error', `Failed to add workout: ${errorMessage}`);
+      customAlert('Error', `Failed to add workout: ${errorMessage}`);
     }
   };
 
@@ -46,12 +48,12 @@ export const WorkoutDebugTest: React.FC = () => {
       await addWorkout(exercises);
       addLog('Workout added successfully from modal!');
       setShowWorkoutModal(false);
-      Alert.alert('Success', 'Workout added from modal!');
+      customAlert('Success', 'Workout added from modal!');
       
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       addLog(`Modal error: ${errorMessage}`);
-      Alert.alert('Error', `Modal failed: ${errorMessage}`);
+      customAlert('Error', `Modal failed: ${errorMessage}`);
     }
   };
 
@@ -105,7 +107,7 @@ export const WorkoutDebugTest: React.FC = () => {
       await AsyncStorage.removeItem('@FitTrack:workouts');
       addLog('Workouts storage cleared');
       await loadWorkouts(); // Refresh the list
-      Alert.alert('Cleared', 'Workouts storage cleared');
+      customAlert('Cleared', 'Workouts storage cleared');
     } catch (error) {
       addLog(`Clear error: ${error}`);
     }

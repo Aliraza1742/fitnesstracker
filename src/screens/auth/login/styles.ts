@@ -1,46 +1,102 @@
-// screens/auth/LoginScreen.styles.ts
-import { StyleSheet } from 'react-native';
+// screens/auth/login/styles.ts
+import { StyleSheet, Dimensions } from 'react-native';
+
+const { width } = Dimensions.get('window');
 
 export const styles = StyleSheet.create({
-  container: { flex: 1 },
-  scrollContent: { flexGrow: 1 },
-  content: { flex: 1, padding: 24, justifyContent: 'space-between' },
-  logo: {
-    width: 550,
-    height: 500,
-    marginTop: -85,
-    marginBottom: -150,
-    alignSelf: 'center',
+  container: {
+    flex: 1,
+  },
+  scrollContent: {
+    flexGrow: 1,
+  },
+  headerSpacer: {
+    height: 60,
+  },
+  content: {
+    flex: 1,
+    paddingHorizontal: 24,
+    paddingBottom: 40,
+  },
+  brandContainer: {
+    alignItems: 'center',
+    marginBottom: 40,
+  },
+  brandBadge: {
+    width: 100,
+    height: 100,
     borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 16,
+    shadowColor: '#10B981',
+    shadowOpacity: 0.1,
+    elevation: 1,
+  },
+  logoImage: {
+     width: 450,
+    height: 300,
+     marginTop: -35,
+
   },
   appTitle: {
-    fontSize: 40,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 5,
+    fontSize: 32,
+    fontWeight: '800',
+    letterSpacing: -0.5,
+    marginTop: -70,
   },
   tagline: {
     fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 10,
-    textAlign: 'center',
+    marginTop: 4,
+    fontWeight: '500',
   },
-  subtitle: {
+  formContainer: {
+    borderRadius: 32,
+    padding: 28,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.05,
+    shadowRadius: 20,
+    elevation: 5,
+  },
+  formTitle: {
+    fontSize: 24,
+    fontWeight: '700',
+    marginBottom: 8,
+
+  },
+  formSubtitle: {
+    fontSize: 15,
+    marginBottom: 24,
+    lineHeight: 20,
+  },
+  form: {
+    width: '100%',
+  },
+  forgotPassword: {
+    alignSelf: 'flex-end',
+    marginBottom: 24,
+  },
+  forgotPasswordText: {
     fontSize: 14,
-    marginBottom: 20,
-    textAlign: 'center',
-    color: '#423c3cff',
+    fontWeight: '600',
   },
-  form: { flex: 1, justifyContent: 'center', marginBottom: 20 },
-  footer: { flexDirection: 'row', justifyContent: 'center', marginBottom: 40 },
-  footerText: { fontSize: 14 },
-  footerLink: { fontSize: 14, fontWeight: '600' },
-  input: {
-    borderWidth: 2.5,
-    borderRadius: 10,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    color: 'black',
-    backgroundColor: '#ffffffd5',
+  loginButton: {
+    height: 56,
+    borderRadius: 16,
+    marginTop: 8,
+  },
+  footer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 24,
+  },
+  footerText: {
+    fontSize: 15,
+  },
+  footerLink: {
+    fontSize: 15,
+    fontWeight: '700',
   },
 });

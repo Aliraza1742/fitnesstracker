@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useTheme } from '../../hooks/useTheme';
+import { IconBadge } from '../ui/IconBadge';
 
 interface InfoCardProps {
   icon: React.ReactNode;
@@ -21,12 +22,12 @@ export const InfoCard: React.FC<InfoCardProps> = ({
       <View style={[styles.card, { 
         backgroundColor: theme.colors.surface,
         opacity: editable ? 1 : 0.9,
+        borderColor: theme.colors.grey200,
+        shadowColor: theme.colors.grey900,
       }]}>
         <View style={styles.content}>
           <View style={styles.leftSection}>
-            <Text style={[styles.icon, { color: theme.colors.primary }]}>
-              {icon}
-            </Text>
+            <IconBadge icon={icon} size={42} variant="accent" />
             <View style={styles.textContainer}>
               <Text style={[styles.title, { color: theme.colors.onSurface }]}>
                 {title}
@@ -47,6 +48,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 16,
     marginBottom: 30,
+    borderWidth: 1,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -63,14 +65,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
   },
-  icon: {
-    fontSize: 20,
-    marginRight: 12,
-    width: 24,
-    textAlign: 'center',
-  },
   textContainer: {
     flex: 1,
+    marginLeft: 12,
   },
   title: {
     fontSize: 14,
@@ -84,9 +81,5 @@ const styles = StyleSheet.create({
   editContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  chevron: {
-    fontSize: 18,
-    fontWeight: 'bold',
   },
 });

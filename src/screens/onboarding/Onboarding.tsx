@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -20,6 +20,7 @@ import { onboardingData } from '../../utils/onboardingData';
 import { useTheme } from '../../hooks/useTheme';
 import { AnimatedDot } from './AnimatedDot';
 import { OnboardingItemComponent } from './OnboardingItem';
+import { BackgroundIcons } from './BackgroundIcons';
 import { styles } from './styles';
 
 type OnboardingScreenNavigationProp = NativeStackNavigationProp<
@@ -48,17 +49,31 @@ export const OnboardingScreen: React.FC = () => {
     Math.round(scrollX.value / width),
   );
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (currentIndex < onboardingData.length - 1) {
+        const nextIndex = currentIndex + 1;
+        scrollRef.current?.scrollTo({ x: nextIndex * width, animated: true });
+      } else {
+        // Optional: loop back to start or just stay at the end
+        scrollRef.current?.scrollTo({ x: 0, animated: true });
+      }
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [currentIndex, width]);
+
   const handleNext = () => navigation.navigate('Login');
   const handleSkip = () => navigation.navigate('Login');
 
   return (
     <LinearGradient
-      colors={theme.colors.gradients.primary} 
+      colors={theme.colors.gradients.background} 
       style={styles.container}
     >
-      {/* Skip Button */}
+      <BackgroundIcons />
       <TouchableOpacity style={styles.skipButton} onPress={handleSkip}>
-        <Text style={{ color: theme.colors.onSurface, fontWeight: '600' }}>
+        <Text style={{ color: theme.colors.onSurface, fontWeight: '800' }}>
           Skip
         </Text>
       </TouchableOpacity>
@@ -68,6 +83,7 @@ export const OnboardingScreen: React.FC = () => {
         ref={scrollRef as any}
         horizontal
         pagingEnabled
+        scrollEnabled={false} // Disable manual swiping
         showsHorizontalScrollIndicator={false}
         onScroll={onScrollHandler}
         scrollEventThrottle={16}
@@ -107,9 +123,7 @@ export const OnboardingScreen: React.FC = () => {
           style={styles.nextButton}
         >
           <Text style={[styles.nextButtonText, { color: theme.colors.white }]}>
-            {currentIndex === onboardingData.length - 1
-              ? 'Get Started'
-              : 'Next'}
+            Get Started
           </Text>
         </LinearGradient>
       </TouchableOpacity>

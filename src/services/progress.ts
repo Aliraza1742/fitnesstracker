@@ -38,8 +38,8 @@ export class ProgressService {
       
       // Send notification
       await notificationService.scheduleLocalNotification(
-        '📊 Weekly Progress Report',
-        `You burned ${totalCalories} calories in ${totalWorkouts} workouts this week! Total time: ${durationText}. 🎯`,
+        'Weekly progress report',
+        `You burned ${totalCalories} calories in ${totalWorkouts} workouts this week. Total time: ${durationText}.`,
         { 
           type: 'weekly_progress',
           totalCalories,
@@ -67,8 +67,8 @@ export class ProgressService {
       const weeklyCount = userWeeklyWorkouts.length;
       
       await notificationService.scheduleLocalNotification(
-        '🔥 Workout Completed!',
-        `Great job! You burned ${workout.totalCalories} calories. Weekly total: ${weeklyCalories} calories across ${weeklyCount} workouts. 💪`,
+        'Workout completed',
+        `Great job! You burned ${workout.totalCalories} calories. Weekly total: ${weeklyCalories} calories across ${weeklyCount} workouts.`,
         { 
           type: 'workout_completed',
           workoutId: workout.id,
@@ -93,18 +93,18 @@ export class ProgressService {
       
       // Check for achievements
       if (totalWorkouts >= 10) {
-        await ProgressService.sendAchievementNotification('10 Workouts Completed!', '🏆 You\'ve reached 10 workouts! Keep the momentum going!');
+        await ProgressService.sendAchievementNotification('10 workouts completed', 'You have reached 10 workouts. Keep the momentum going.');
       }
       
       if (totalCalories >= 5000) {
-        await ProgressService.sendAchievementNotification('5,000 Calories Burned!', '🔥 Amazing! You\'ve burned 5,000 calories through your workouts!');
+        await ProgressService.sendAchievementNotification('5,000 calories burned', 'Amazing. You have burned 5,000 calories through your workouts.');
       }
       
       if (totalWorkouts >= 5 && userWorkouts.length >= 5) {
         const last5Workouts = userWorkouts.slice(-5);
         const consistent = last5Workouts.every(workout => workout.totalCalories > 100);
         if (consistent) {
-          await ProgressService.sendAchievementNotification('Consistent Performer!', '⭐ You\'ve completed 5 consistent workouts in a row!');
+          await ProgressService.sendAchievementNotification('Consistent performer', 'You have completed 5 consistent workouts in a row.');
         }
       }
     } catch (error) {
@@ -114,7 +114,7 @@ export class ProgressService {
 
   static async sendAchievementNotification(title: string, message: string) {
     await notificationService.scheduleLocalNotification(
-      `🏆 ${title}`,
+      title,
       message,
       { type: 'achievement' },
       'progress_updates'

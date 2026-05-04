@@ -17,10 +17,9 @@ export const AnimatedDot = React.memo(
         style={[
           {
             height: 8,
-            borderRadius: 4,
-            borderWidth:1.2,
-            borderColor: theme.colors.black,
-            backgroundColor: theme.colors.primaryDark,
+            borderRadius: 999,
+            borderWidth: 0,
+            backgroundColor: theme.colors.primary,
             marginHorizontal: 4,
           },
           animatedStyle,

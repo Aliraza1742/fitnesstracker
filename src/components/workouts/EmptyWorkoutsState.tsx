@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useTheme } from '../../hooks/useTheme';
+import { Dumbbell } from 'lucide-react-native';
+import { IconBadge } from '../ui/IconBadge';
 
 interface EmptyWorkoutsStateProps {
   onAddWorkout: () => void;
@@ -12,7 +14,7 @@ export const EmptyWorkoutsState: React.FC<EmptyWorkoutsStateProps> = ({ onAddWor
   return (
     <View style={styles.container}>
       <View style={styles.content}>
-        <Text style={[styles.emoji, { fontSize: 48 }]}>🏋️‍♂️</Text>
+        <IconBadge icon={<Dumbbell />} size={72} variant="accent" />
         <Text style={[styles.title, { color: theme.colors.onBackground }]}>
           No Workouts Yet
         </Text>
@@ -41,9 +43,6 @@ const styles = StyleSheet.create({
   },
   content: {
     alignItems: 'center',
-  },
-  emoji: {
-    marginBottom: 16,
   },
   title: {
     fontSize: 24,

@@ -12,6 +12,7 @@ import { useRoute, RouteProp } from '@react-navigation/native';
 import { WorkoutDetailHeader } from '../../components/workouts/WorkoutDetailHeader';
 import { ExerciseItem } from '../../components/workouts/ExerciseItem';
 import { WorkoutSession } from '../../types/workout';
+import { SectionCard } from '../../components/ui/SectionCard';
 import LinearGradient  from 'react-native-linear-gradient';
 
 
@@ -43,7 +44,7 @@ export const WorkoutDetailScreen: React.FC = () => {
   return (
 
   <LinearGradient
-      colors={theme.colors.gradients.primary} 
+      colors={theme.colors.gradients.background} 
       style={styles.container}
     >
       <ScrollView
@@ -51,7 +52,9 @@ export const WorkoutDetailScreen: React.FC = () => {
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
-        <WorkoutDetailHeader workout={workout} />
+        <SectionCard style={styles.headerCard}>
+          <WorkoutDetailHeader workout={workout} />
+        </SectionCard>
         
         <View style={styles.exercisesSection}>
           <Text style={[styles.sectionTitle, { color: theme.colors.onBackground }]}>
@@ -68,14 +71,14 @@ export const WorkoutDetailScreen: React.FC = () => {
         </View>
 
         {workout.notes && (
-          <View style={[styles.notesSection, { backgroundColor: theme.colors.surface }]}>
+          <SectionCard style={styles.notesSection}>
             <Text style={[styles.notesTitle, { color: theme.colors.onBackground }]}>
               Workout Notes
             </Text>
             <Text style={[styles.notesText, { color: theme.colors.onSurface }]}>
               {workout.notes}
             </Text>
-          </View>
+          </SectionCard>
         )}
 
         <View style={styles.footer}>
@@ -98,6 +101,9 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingBottom: 60,
   },
+  headerCard: {
+    marginBottom: 18,
+  },
   errorText: {
     textAlign: 'center',
     marginTop: 40,
@@ -112,8 +118,6 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   notesSection: {
-    padding: 16,
-    borderRadius: 12,
     marginBottom: 24,
   },
   notesTitle: {

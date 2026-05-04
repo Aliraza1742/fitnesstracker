@@ -4,13 +4,15 @@ export const styles = StyleSheet.create({
   container: { flex: 1 },
   skipButton: {
     position: 'absolute',
-    top: 50,
-    right: 20,
+    top: 60,
+    right: 24,
     zIndex: 10,
-    paddingVertical: 6,
-    paddingHorizontal: 12,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
     borderRadius: 20,
-    backgroundColor: 'rgba(0,0,0,0.05)',
+    backgroundColor: 'rgba(255,255,255,0.15)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.2)',
   },
   itemContainer: {
     flex: 1,
@@ -19,15 +21,15 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 24,
   },
   imageContainer: {
-    flex: 0.75,
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: -70,
   },
   textContainer: {
-    flex: 0.45,
     alignItems: 'center',
-    paddingHorizontal: 24,
+    paddingHorizontal: 12,
   },
+
   title: {
     fontSize: 28,
     fontWeight: '800',
@@ -39,7 +41,7 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
     lineHeight: 24,
-    opacity: 0.8,
+    opacity: 0.9,
   },
   dotsContainer: {
     flexDirection: 'row',
@@ -59,6 +61,10 @@ export const styles = StyleSheet.create({
     borderRadius: 30,
     alignItems: 'center',
     justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOpacity: 0.12,
+    shadowRadius: 12,
+    shadowOffset: { width: 2, height: 8 },
   },
   nextButtonText: {
     fontSize: 18,

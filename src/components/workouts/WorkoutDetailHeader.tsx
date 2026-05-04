@@ -2,6 +2,8 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from '../../hooks/useTheme';
 import { WorkoutSession } from '../../types/workout';
+import { CalendarDays, TimerReset, Flame } from 'lucide-react-native';
+import { IconBadge } from '../ui/IconBadge';
 
 interface WorkoutDetailHeaderProps {
   workout: WorkoutSession;
@@ -18,16 +20,22 @@ export const WorkoutDetailHeader: React.FC<WorkoutDetailHeaderProps> = ({ workou
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.surface }]}>
       <View style={styles.dateContainer}>
-        <Text style={[styles.date, { color: theme.colors.onBackground }]}>
-          {date}
-        </Text>
-        <Text style={[styles.time, { color: theme.colors.grey500 }]}>
-          {time}
-        </Text>
+        <View style={styles.dateRow}>
+          <IconBadge icon={<CalendarDays />} size={36} variant="accent" />
+          <View style={styles.dateCopy}>
+            <Text style={[styles.date, { color: theme.colors.onBackground }]}>
+              {date}
+            </Text>
+            <Text style={[styles.time, { color: theme.colors.grey500 }]}>
+              {time}
+            </Text>
+          </View>
+        </View>
       </View>
       
       <View style={styles.statsContainer}>
         <View style={styles.stat}>
+          <IconBadge icon={<TimerReset />} size={34} variant="default" />
           <Text style={[styles.statValue, { color: theme.colors.primary }]}>
             {workout.totalDuration}
           </Text>
@@ -37,6 +45,7 @@ export const WorkoutDetailHeader: React.FC<WorkoutDetailHeaderProps> = ({ workou
         </View>
         
         <View style={styles.stat}>
+          <IconBadge icon={<Flame />} size={34} variant="warning" />
           <Text style={[styles.statValue, { color: theme.colors.primary }]}>
             {workout.totalCalories}
           </Text>
@@ -72,6 +81,14 @@ const styles = StyleSheet.create({
   dateContainer: {
     marginBottom: 20,
   },
+  dateRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  dateCopy: {
+    flex: 1,
+  },
   date: {
     fontSize: 20,
     fontWeight: 'bold',
@@ -86,6 +103,7 @@ const styles = StyleSheet.create({
   },
   stat: {
     alignItems: 'center',
+    gap: 8,
   },
   statValue: {
     fontSize: 24,

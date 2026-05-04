@@ -1,8 +1,10 @@
 // src/screens/Settings/useSettingsScreen.ts
 import { useState } from 'react';
-import { Alert, Linking, Platform } from 'react-native';
+import { Linking, Platform } from 'react-native';
 import { useSettings } from '../../hooks/useSettings';
 import { useAuth } from '../../hooks/useAuth';
+import { customAlert } from '../../utils/alert';
+
 
 export const useSettingsScreen = () => {
   const { logout } = useAuth();
@@ -26,7 +28,7 @@ export const useSettingsScreen = () => {
 
   const handleHealthDataSharingChange = async (value: boolean) => {
     if (value) {
-      Alert.alert(
+      customAlert(
         'Health Data Access',
         'FitTrack would like to access your health data to provide better fitness insights. This data will only be used to improve your experience and will not be shared with third parties.',
         [
@@ -40,7 +42,7 @@ export const useSettingsScreen = () => {
   };
 
   const handleClearData = () => {
-    Alert.alert(
+    customAlert(
       'Clear All Data',
       'This will remove all your workouts and settings. This action cannot be undone.',
       [
@@ -50,7 +52,7 @@ export const useSettingsScreen = () => {
           style: 'destructive',
           onPress: async () => {
             // Implement data clearing logic here
-            Alert.alert('Success', 'All data has been cleared.');
+            customAlert('Success', 'All data has been cleared.');
           },
         },
       ]
@@ -68,12 +70,12 @@ export const useSettingsScreen = () => {
         : 'market://details?id=com.fittrack.app';
 
     Linking.openURL(storeUrl).catch(() => {
-      Alert.alert('Error', 'Could not open app store.');
+      customAlert('Error', 'Could not open app store.');
     });
   };
 
   const handleLogout = () => {
-    Alert.alert('Logout', 'Are you sure you want to logout?', [
+    customAlert('Logout', 'Are you sure you want to logout?', [
       { text: 'Cancel', style: 'cancel' },
       { text: 'Logout', style: 'destructive', onPress: logout },
     ]);

@@ -4,6 +4,7 @@ import Animated, { useAnimatedStyle, interpolate, SharedValue } from 'react-nati
 import { OnboardingItem } from '../../utils/onboardingData';
 import { useTheme } from '../../hooks/useTheme';
 import { PlaceholderImage } from '../../components/common/Placeholder';
+import { SectionCard } from '../../components/ui/SectionCard';
 import { styles } from './styles';
 
 export const OnboardingItemComponent = ({
@@ -28,15 +29,15 @@ export const OnboardingItemComponent = ({
     <Animated.View style={[styles.itemContainer, { width }, animatedStyle]}>
       <View style={styles.imageContainer}>
         {item.image ? (
-          <Image source={item.image} style={{ width: width * 1.5, height: width * 1.5, resizeMode: 'contain' }} />
+          <Image source={item.image} style={{ width: width * 0.9, height: width * 0.9, resizeMode: 'contain' }} />
         ) : (
-          <PlaceholderImage size={width * 0.65} />
+          <PlaceholderImage size={width * 0.55} />
         )}
       </View>
-      <View style={styles.textContainer}>
-        <Text style={[styles.title, { color: theme.colors.onBackground }]}>{item.title}</Text>
-        <Text style={[styles.description, { color: theme.colors.onSurface }]}>{item.description}</Text>
-      </View>
+        <View style={styles.textContainer}>
+          <Text style={[styles.title, { color: theme.colors.onBackground }]}>{item.title}</Text>
+          <Text style={[styles.description, { color: theme.colors.onSurface }]}>{item.description}</Text>
+        </View>
     </Animated.View>
   );
 };

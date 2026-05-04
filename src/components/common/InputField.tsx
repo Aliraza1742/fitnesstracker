@@ -39,21 +39,24 @@ export const InputField: React.FC<InputFieldProps> = ({ label, error, style, ...
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 20,
+    marginBottom: 18,
   },
   label: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '600',
     marginBottom: 8,
   },
   input: {
-    borderWidth: 1,
-    borderRadius: 12,
-    padding: 16,
+    borderWidth: 1.5,
+    borderRadius: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
     fontSize: 16,
+    minHeight: 56,
   },
   error: {
-    fontSize: 14,
+    fontSize: 13,
     marginTop: 4,
+    fontWeight: '500',
   },
 });

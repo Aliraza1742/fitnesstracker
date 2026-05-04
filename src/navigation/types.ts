@@ -11,6 +11,7 @@ export type MainDrawerParamList = {
   Dashboard: undefined;
   Workouts: undefined;
   WorkoutDetail: { workoutId: string }; // Add this
+  Nutrition: undefined;
   Profile: undefined;
   Notifications: undefined;
   Settings: undefined;

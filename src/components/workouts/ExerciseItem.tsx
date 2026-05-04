@@ -2,6 +2,8 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from '../../hooks/useTheme';
 import { WorkoutExercise } from '../../types/workout';
+import { Activity } from 'lucide-react-native';
+import { IconBadge } from '../ui/IconBadge';
 
 interface ExerciseItemProps {
   exercise: WorkoutExercise;
@@ -14,9 +16,7 @@ export const ExerciseItem: React.FC<ExerciseItemProps> = ({ exercise, index }) =
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.surface }]}>
       <View style={styles.header}>
-        <Text style={[styles.index, { color: theme.colors.primary }]}>
-          {index + 1}
-        </Text>
+        <IconBadge icon={<Activity />} size={34} variant="accent" />
         <View style={styles.exerciseInfo}>
           <Text style={[styles.name, { color: theme.colors.onBackground }]}>
             {exercise.name}
@@ -59,11 +59,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 8,
-  },
-  index: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    width: 30,
   },
   exerciseInfo: {
     flex: 1,

@@ -1,21 +1,13 @@
 import axios from 'axios';
-import { 
-  NUTRITIONIX_APP_ID, 
-  NUTRITIONIX_API_KEY 
-} from '@env';
-
-// DEBUG: Check if environment variables are loaded
-console.log('Nutritionix App ID:', NUTRITIONIX_APP_ID || 'NOT FOUND');
-console.log('Nutritionix API Key:', NUTRITIONIX_API_KEY ? 'LOADED' : 'NOT FOUND');
-console.log('API Key first 5 chars:', NUTRITIONIX_API_KEY ? NUTRITIONIX_API_KEY.substring(0, 5) + '...' : 'N/A');
+import { NUTRITIONIX_CONFIG } from '../config/nutritionix';
 
 // Create axios instance with base configuration
 export const nutritionixApi = axios.create({
   baseURL: 'https://trackapi.nutritionix.com/v2',
   headers: {
     'Content-Type': 'application/json',
-    'x-app-id': NUTRITIONIX_APP_ID,
-    'x-app-key': NUTRITIONIX_API_KEY,
+    'x-app-id': NUTRITIONIX_CONFIG.APP_ID,
+    'x-app-key': NUTRITIONIX_CONFIG.API_KEY,
   },
 });
 
@@ -64,6 +56,9 @@ export interface ExerciseResponse {
 export interface FoodItem {
   food_name: string;
   nf_calories: number;
+  nf_protein?: number;
+  nf_total_fat?: number;
+  nf_total_carbohydrate?: number;
   serving_qty: number;
   serving_unit: string;
 }
@@ -101,12 +96,10 @@ export const nutritionixService = {
   },
 
   /**
-   * Search for food items and their nutrition data
+   * Search for food items and their nutrition data via Nutritionix API.
    */
   searchFood: async (query: string): Promise<FoodResponse> => {
-    const response = await nutritionixApi.post<FoodResponse>('/natural/nutrients', {
-      query,
-    });
+    const response = await nutritionixApi.post<FoodResponse>('/natural/nutrients', { query });
     return response.data;
   },
 

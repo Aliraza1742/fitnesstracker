@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
-import {
-  View,
+import { View,
   Text,
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  Alert,
   RefreshControl,
-  FlatList,
-} from 'react-native';
+  FlatList } from 'react-native';
 import { useTheme } from '../../hooks/useTheme';
 import { useWorkout } from '../../hooks/useWorkout';
 import { useNavigation } from '@react-navigation/native';
@@ -16,7 +13,11 @@ import { MainDrawerNavigationProp } from '../../navigation/types';
 import { SwipeableWorkoutCard } from '../../components/workouts/SwipeableWorkoutCard';
 import { EmptyWorkoutsState } from '../../components/workouts/EmptyWorkoutsState';
 import { WorkoutFormModal } from '../../components/workouts/WorkoutFormModal';
+import { SectionCard } from '../../components/ui/SectionCard';
+import { Plus } from 'lucide-react-native';
 import LinearGradient  from 'react-native-linear-gradient';
+import { customAlert } from '../../utils/alert';
+
 
 
 export const WorkoutsScreen: React.FC = () => {
@@ -32,7 +33,7 @@ export const WorkoutsScreen: React.FC = () => {
       await deleteWorkout(workoutId);
     } catch (error) {
       console.error('Failed to delete workout:', error);
-      Alert.alert('Error', 'Failed to delete workout.');
+      customAlert('Error', 'Failed to delete workout.');
     }
   };
 
@@ -50,7 +51,7 @@ export const WorkoutsScreen: React.FC = () => {
       console.log('Workout added successfully from workouts screen');
     } catch (error) {
       console.error('Failed to add workout from workouts screen:', error);
-      Alert.alert('Error', 'Failed to add workout. Please try again.');
+      customAlert('Error', 'Failed to add workout. Please try again.');
     }
   };
 
@@ -87,17 +88,17 @@ export const WorkoutsScreen: React.FC = () => {
 
   return (
 <LinearGradient
-      colors={theme.colors.gradients.primary} 
+      colors={theme.colors.gradients.background} 
       style={styles.container}
     >
-      <View style={styles.header}>
+      <SectionCard style={styles.headerCard}>
         <Text style={[styles.title, { color: theme.colors.onBackground }]}>
           My Workouts
         </Text>
         <Text style={[styles.subtitle, { color: theme.colors.onSurface }]}>
           {workouts.length} workout{workouts.length !== 1 ? 's' : ''} tracked
         </Text>
-      </View>
+      </SectionCard>
 
       <FlatList
         data={workouts.sort(
@@ -129,9 +130,7 @@ export const WorkoutsScreen: React.FC = () => {
           setShowWorkoutModal(true);
         }}
       >
-        <Text style={[styles.addButtonText, { color: theme.colors.white }]}>
-          +
-        </Text>
+        <Plus size={24} color={theme.colors.white} />
       </TouchableOpacity>
 
       <WorkoutFormModal
@@ -151,22 +150,23 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  header: {
-    padding: 20,
-    paddingBottom: 10,
+  headerCard: {
+    margin: 20,
+    marginBottom: 8,
   },
   title: {
     fontSize: 28,
-    fontWeight: 'bold',
+    fontWeight: '800',
     marginBottom: 4,
   },
   subtitle: {
     fontSize: 16,
-    opacity: 0.7,
+    lineHeight: 22,
   },
   listContent: {
     padding: 20,
-    paddingTop: 60,
+    paddingTop: 12,
+    paddingBottom: 120,
   },
   addButton: {
     position: 'absolute',
@@ -182,9 +182,5 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 4,
     elevation: 6,
-  },
-  addButtonText: {
-    fontSize: 24,
-    fontWeight: 'bold',
   },
 });

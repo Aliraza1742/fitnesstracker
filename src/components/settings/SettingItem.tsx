@@ -1,9 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Switch } from 'react-native';
 import { useTheme } from '../../hooks/useTheme';
+import { IconBadge } from '../ui/IconBadge';
 
 interface SettingItemProps {
-  icon: string;
+  icon: React.ReactNode;
   title: string;
   description?: string;
   type?: 'switch' | 'button' | 'info';
@@ -39,8 +40,8 @@ export const SettingItem: React.FC<SettingItemProps> = ({
         );
       case 'button':
         return (
-          <Text style={[styles.chevron, { color: theme.colors.black}]}>
-            ›
+          <Text style={[styles.chevron, { color: theme.colors.black}]}> 
+            >
           </Text>
         );
       case 'info':
@@ -52,15 +53,17 @@ export const SettingItem: React.FC<SettingItemProps> = ({
     <TouchableOpacity
       onPress={onPress}
       disabled={disabled || type === 'info'}
-      style={[styles.container, { opacity: disabled ? 0.6 : 1 }]}
+      style={[
+        styles.container,
+        {
+          opacity: disabled ? 0.6 : 1,
+          borderBottomColor: theme.colors.grey200,
+        },
+      ]}
     >
       <View style={styles.content}>
         <View style={styles.leftSection}>
-          <Text style={[styles.icon, { color: theme.colors.primary ,
-            fontSize:18
-          }]}>
-            {icon}
-          </Text>
+          <IconBadge icon={icon} size={40} variant="accent" />
           <View style={styles.textContainer}>
             <Text style={[styles.title, { color: theme.colors.onBackground }]}>
               {title}
@@ -81,6 +84,7 @@ export const SettingItem: React.FC<SettingItemProps> = ({
 const styles = StyleSheet.create({
   container: {
     paddingVertical: 16,
+    borderBottomWidth: StyleSheet.hairlineWidth,
   },
   content: {
     flexDirection: 'row',
@@ -92,14 +96,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
   },
-  icon: {
-    fontSize: 20,
-    marginRight: 16,
-    width: 24,
-    textAlign: 'center',
-  },
   textContainer: {
     flex: 1,
+    marginLeft: 12,
   },
   title: {
     fontSize: 16,
