@@ -1,97 +1,122 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+FitnessTracker — React Native mobile app
 
-# Getting Started
+FitnessTracker is a modern cross-platform React Native application that helps users track workouts, view fitness statistics, manage nutrition lookups, and maintain progress over time. The project demonstrates a modular architecture, offline-friendly local storage, an optional Node/Express backend for user authentication and persistence, and clean UI patterns suitable for a consumer mobile app.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+**Highlights:**
+- **Platforms:** Android & iOS (React Native)
+- **Navigation:** Stack + Drawer navigation (react-navigation)
+- **State management:** Zustand for global stores (`useAuthStore`, `useWorkoutStore`, `useAlertStore`)
+- **Authentication:** Local mock auth + optional backend JWT auth (Express + MongoDB)
+- **Features:** Onboarding, Auth (Sign in / Sign up), Dashboard with workout tracking & stats, Workouts CRUD, Nutrition lookup, Profile, Settings, Notifications
+- **Native integrations:** Local notifications (`@notifee/react-native`), AsyncStorage for persistence, platform-aware API client
 
-## Step 1: Start Metro
+**Screenshots / Image placeholders**
+- Onboarding: ![Onboarding screen](docs/images/onboarding.png)
+- Auth (Sign In / Sign Up): ![Auth screens](docs/images/auth.png)
+- Dashboard: ![Dashboard screen](docs/images/dashboard.png)
+- Drawer (navigation): ![Drawer screen](docs/images/drawer.png)
+- Settings: ![Settings screen](docs/images/settings.png)
+- Optional: Workouts / Exercise detail: ![Workouts screen](docs/images/workouts.png)
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+## Key Features
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+- **Onboarding flow:** Illustrated, animated onboarding sequence to introduce key app concepts (`src/screens/onboarding`).
+- **Authentication & Profiles:** Sign up / Sign in flows with local AsyncStorage-backed mock auth and a paired Node/Express backend for JWT-based authentication (`backend/routes/auth.js`).
+- **Workouts tracking:** Create, view and delete workout sessions; each session stores exercises, duration, and estimated calories. Workflows and calculations live in `src/services/workout` and `src/store/useWorkoutStore.ts`.
+- **Dashboard & Progress:** Daily/weekly stats, streaks, and goal progress using `StatsCard` and `ProgressCircle` components.
+- **Nutrition lookup:** Integration points for Nutritionix and OpenFood APIs to search food items and estimate calories (`src/services/nutritionix.ts`, `src/services/openFood.ts`).
+- **Notifications:** Local push notifications for reminders and achievement alerts via Notifee and the app's `Notification` context.
+- **Theming & Settings:** Light/dark theming, user preferences, and global settings stored in local context.
 
-```sh
-# Using npm
+## Architecture & Code Organization
+
+Top-level folders you will work with:
+
+- `src/components` — Reusable UI components (common, dashboard, workouts, profile, ui)
+- `src/screens` — Screen components organized by flow (auth, dashboard, onboarding, workouts, profile, settings)
+- `src/navigation` — App navigation setup: `App.tsx`, `Auth.tsx`, `Main.tsx`, `DrawerContent.tsx`
+- `src/store` — Zustand stores (`useAuthStore.ts`, `useWorkoutStore.ts`, `useAlertStore.ts`)
+- `src/services` — Business logic and APIs (workoutService, progress, notification, nutrition)
+- `backend/` — Optional Express + MongoDB backend for user management and JWT auth
+
+Important files:
+
+- App entry: `App.tsx`
+- API client with platform-aware host: `src/api/client.ts`
+- Auth store: `src/store/useAuthStore.ts`
+- Workout store: `src/store/useWorkoutStore.ts`
+- Backend auth route: `backend/routes/auth.js`
+
+## Local development — quickstart
+
+1. Install dependencies in the project root:
+
+```bash
+npm install
+```
+
+2. (Optional) Install and start the backend (requires MongoDB):
+
+```bash
+cd backend
+npm install
+# set .env with MONGO_URI and JWT_SECRET
+node server.js
+```
+
+3. Start Metro and run the app on Android or iOS:
+
+```bash
+# Start metro
 npm start
 
-# OR using Yarn
-yarn start
-```
-
-## Step 2: Build and run your app
-
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
-### Android
-
-```sh
-# Using npm
+# Android (emulator/device)
 npm run android
 
-# OR using Yarn
-yarn android
-```
-
-### iOS
-
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
-```
-
-Then, and every time you update your native dependencies, run:
-
-```sh
-bundle exec pod install
-```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
+# iOS (simulator) — macOS only
 npm run ios
-
-# OR using Yarn
-yarn ios
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+Notes:
+- The mobile app's API base URL is configured in `src/api/client.ts`. For Android emulator use `10.0.2.2` to reach a backend running on your host machine.
+- If you do not run the backend, the app uses local AsyncStorage-based mock auth and offline flows.
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+## Environment & configuration
 
-## Step 3: Modify your app
+- Create a `.env` file for the backend with at least:
+  - `MONGO_URI` — connection string for MongoDB
+  - `JWT_SECRET` — secret used to sign tokens (keep secure)
 
-Now that you have successfully run the app, let's make changes!
+## Testing & linting
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+- Unit tests: `npm test` (Jest config is present)
+- Linting: `npm run lint`
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+## Contributing
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+- Follow the existing code patterns: small, focused components in `src/components`, screens under `src/screens`, business logic in `src/services`, and global state in `src/store` (Zustand).
+- Open an issue or create a branch per feature/bug and submit a PR against `main`.
 
-## Congratulations! :tada:
+## Where to add screenshots
 
-You've successfully run and modified your React Native App. :partying_face:
+Place screenshots in the `docs/images/` folder and commit them. The README references the following files as placeholders:
 
-### Now what?
+- `docs/images/onboarding.png`
+- `docs/images/auth.png`
+- `docs/images/dashboard.png`
+- `docs/images/drawer.png`
+- `docs/images/settings.png`
+- `docs/images/workouts.png`
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+## License
 
-# Troubleshooting
+This repository does not contain a license file by default. Add a `LICENSE` if you plan to publish or share the code.
 
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+---
 
-# Learn More
+If you'd like, I can:
 
-To learn more about React Native, take a look at the following resources:
+- add the actual screenshots into `docs/images/` (you can provide them or I can capture running emulator frames),
+- open a PR for the README change, or
+- expand any section (e.g., API reference, data models, or contribution guidelines).
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
