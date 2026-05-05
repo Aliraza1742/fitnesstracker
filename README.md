@@ -94,7 +94,7 @@ Use the following placeholders for product screenshots.
   ![Drawer](./src/assets/images/drawer.png)
 - Settings  
   ![Settings](./src/assets/images/settings.png)
-- Workout form 
+- Workout 
   ![Workout Details](./src/assets/images/workoutform.png)
   ![Workout Details](./src/assets/images/workouts.png)
 
