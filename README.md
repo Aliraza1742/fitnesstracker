@@ -87,7 +87,7 @@ Use the following placeholders for product screenshots.
   ![Onboarding](./src/assets/images/onboarding.png)
 - Authentication (Sign In / Sign Up)  
   ![Authentication](./src/assets/images/Signup.png)
-  ![Authentication](./src/assets/images/signin.png)
+  ![Authentication](./src/assets/images/Signin.png)
 - Dashboard  
   ![Dashboard](./src/assets/images/dashboard.png)
 - Drawer Navigation  
