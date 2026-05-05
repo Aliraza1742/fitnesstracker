@@ -273,13 +273,7 @@ Suggested quality pipeline for CI:
 3. Run tests (`npm test`).
 4. Run platform build checks.
 
-## Roadmap
 
-- Add complete workout history filters and analytics.
-- Expand nutrition module with meal logging and daily totals.
-- Add stronger form-level and API-level validation.
-- Introduce e2e testing (Detox/Appium).
-- Add release automation and CI/CD workflows.
 
 ## Contributing
 
