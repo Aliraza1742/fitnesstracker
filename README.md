@@ -1,122 +1,294 @@
-FitnessTracker — React Native mobile app
+# FitnessTracker
 
-FitnessTracker is a modern cross-platform React Native application that helps users track workouts, view fitness statistics, manage nutrition lookups, and maintain progress over time. The project demonstrates a modular architecture, offline-friendly local storage, an optional Node/Express backend for user authentication and persistence, and clean UI patterns suitable for a consumer mobile app.
+Cross-platform React Native fitness application for workout tracking, nutrition lookup, progress visibility, and personalized fitness management.
 
-**Highlights:**
-- **Platforms:** Android & iOS (React Native)
-- **Navigation:** Stack + Drawer navigation (react-navigation)
-- **State management:** Zustand for global stores (`useAuthStore`, `useWorkoutStore`, `useAlertStore`)
-- **Authentication:** Local mock auth + optional backend JWT auth (Express + MongoDB)
-- **Features:** Onboarding, Auth (Sign in / Sign up), Dashboard with workout tracking & stats, Workouts CRUD, Nutrition lookup, Profile, Settings, Notifications
-- **Native integrations:** Local notifications (`@notifee/react-native`), AsyncStorage for persistence, platform-aware API client
+## Table of Contents
 
-**Screenshots / Image placeholders**
-- Onboarding: ![Onboarding screen](docs/images/onboarding.png)
-- Auth (Sign In / Sign Up): ![Auth screens](docs/images/auth.png)
-- Dashboard: ![Dashboard screen](docs/images/dashboard.png)
-- Drawer (navigation): ![Drawer screen](docs/images/drawer.png)
-- Settings: ![Settings screen](docs/images/settings.png)
-- Optional: Workouts / Exercise detail: ![Workouts screen](docs/images/workouts.png)
+- [Project Overview](#project-overview)
+- [Core Capabilities](#core-capabilities)
+- [Application Screens](#application-screens)
+- [Architecture](#architecture)
+- [Tech Stack](#tech-stack)
+- [Repository Structure](#repository-structure)
+- [Backend API Overview](#backend-api-overview)
+- [Getting Started](#getting-started)
+- [Configuration](#configuration)
+- [Scripts](#scripts)
+- [Testing and Quality](#testing-and-quality)
+- [Roadmap](#roadmap)
+- [Contributing](#contributing)
+- [License](#license)
 
-## Key Features
+## Project Overview
 
-- **Onboarding flow:** Illustrated, animated onboarding sequence to introduce key app concepts (`src/screens/onboarding`).
-- **Authentication & Profiles:** Sign up / Sign in flows with local AsyncStorage-backed mock auth and a paired Node/Express backend for JWT-based authentication (`backend/routes/auth.js`).
-- **Workouts tracking:** Create, view and delete workout sessions; each session stores exercises, duration, and estimated calories. Workflows and calculations live in `src/services/workout` and `src/store/useWorkoutStore.ts`.
-- **Dashboard & Progress:** Daily/weekly stats, streaks, and goal progress using `StatsCard` and `ProgressCircle` components.
-- **Nutrition lookup:** Integration points for Nutritionix and OpenFood APIs to search food items and estimate calories (`src/services/nutritionix.ts`, `src/services/openFood.ts`).
-- **Notifications:** Local push notifications for reminders and achievement alerts via Notifee and the app's `Notification` context.
-- **Theming & Settings:** Light/dark theming, user preferences, and global settings stored in local context.
+FitnessTracker is designed to help users build consistent fitness habits through simple logging, visual progress tracking, and easy profile customization. The app is built with modular boundaries between UI, navigation, business logic, and state stores, making the codebase easier to scale and maintain.
 
-## Architecture & Code Organization
+### Product goals
 
-Top-level folders you will work with:
+- Provide a clean and intuitive mobile experience for daily fitness tracking.
+- Offer secure user authentication with JWT-based backend integration.
+- Keep the app usable in local/offline-like scenarios using AsyncStorage-backed state.
+- Enable feature growth through modular services and reusable UI components.
 
-- `src/components` — Reusable UI components (common, dashboard, workouts, profile, ui)
-- `src/screens` — Screen components organized by flow (auth, dashboard, onboarding, workouts, profile, settings)
-- `src/navigation` — App navigation setup: `App.tsx`, `Auth.tsx`, `Main.tsx`, `DrawerContent.tsx`
-- `src/store` — Zustand stores (`useAuthStore.ts`, `useWorkoutStore.ts`, `useAlertStore.ts`)
-- `src/services` — Business logic and APIs (workoutService, progress, notification, nutrition)
-- `backend/` — Optional Express + MongoDB backend for user management and JWT auth
+### Target use cases
 
-Important files:
+- Users who want to log workout sessions and calories burned.
+- Users who want lightweight nutrition lookup support.
+- Users who want personal fitness profile tracking (goal, age, height, weight).
+- Teams learning or extending a React Native + Zustand + Express architecture.
 
-- App entry: `App.tsx`
-- API client with platform-aware host: `src/api/client.ts`
-- Auth store: `src/store/useAuthStore.ts`
-- Workout store: `src/store/useWorkoutStore.ts`
-- Backend auth route: `backend/routes/auth.js`
+## Core Capabilities
 
-## Local development — quickstart
+### 1. Onboarding
 
-1. Install dependencies in the project root:
+- Animated multi-step onboarding flow.
+- Introduces users to core app outcomes before sign-in.
+- Implemented under `src/screens/onboarding`.
+
+### 2. Authentication (Sign In / Sign Up)
+
+- Frontend auth flows with form validation and UI feedback.
+- Zustand-based auth state (`useAuthStore`) for centralized session handling.
+- Backend JWT authentication and user profile endpoints via Express + MongoDB.
+
+### 3. Dashboard and Progress
+
+- Summary cards for workout metrics.
+- Progress visuals and activity-oriented sections.
+- Refreshable dashboard data pipeline.
+
+### 4. Workout Management
+
+- Add and remove workout sessions.
+- Exercise-level details with duration and calorie estimation.
+- Persisted state via service/store layers.
+
+### 5. Nutrition Support
+
+- Nutrition lookup integration points (`nutritionix` and `openFood` services).
+- Structured for future expansion (favorites, meal plans, history).
+
+### 6. Profile and Settings
+
+- Editable profile details (name, physical attributes, goals).
+- User preferences and app behavior settings.
+- Theme-aware UI through app-level theme context.
+
+### 7. Notifications
+
+- Local notification support for engagement and progress prompts.
+- Integration via `@notifee/react-native` and notification services/context.
+
+## Application Screens
+
+Use the following placeholders for product screenshots.
+
+- Onboarding  
+  ![Onboarding](assets/images/onboarding.png)
+- Authentication (Sign In / Sign Up)  
+  ![Authentication](assets/images/signup.png)
+  ![Authentication](assets/images/signin.png)
+- Dashboard  
+  ![Dashboard](assets/images/dashboard.png)
+- Drawer Navigation  
+  ![Drawer](asssets/images/drawer.png)
+- Settings  
+  ![Settings](assets/images/settings.png)
+- Workout form 
+  ![Workout Details](assets/images/workoutform.png)
+  ![Workout Details](assets/images/workouts.png)
+
+
+
+## Architecture
+
+The project follows a layered architecture:
+
+- Presentation: screens + reusable components.
+- Navigation: authenticated vs unauthenticated route groups.
+- State: global stores using Zustand.
+- Domain/services: workout, progress, nutrition, notification logic.
+- Data sources: AsyncStorage and optional backend APIs.
+
+```mermaid
+flowchart TD
+    UI[React Native Screens and Components] --> NAV[Navigation Layer]
+    UI --> STORE[Zustand Stores]
+    STORE --> SERVICES[Service Layer]
+    SERVICES --> LOCAL[AsyncStorage]
+    SERVICES --> API[Axios API Client]
+    API --> BACKEND[Express API]
+    BACKEND --> DB[MongoDB]
+```
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Mobile framework | React Native 0.81 |
+| Language | TypeScript |
+| Navigation | React Navigation (stack + drawer) |
+| State management | Zustand |
+| Local persistence | AsyncStorage |
+| Networking | Axios |
+| Animation/UI | Reanimated, Linear Gradient, SVG, Lucide icons |
+| Notifications | Notifee |
+| Backend | Node.js + Express |
+| Database | MongoDB + Mongoose |
+| Auth | JWT + bcrypt |
+| Testing | Jest |
+
+## Repository Structure
+
+```text
+fitnesstracker/
+  App.tsx
+  src/
+    api/
+    components/
+    context/
+    data/
+    hooks/
+    navigation/
+    screens/
+    services/
+    store/
+    theme/
+    types/
+    utils/
+  backend/
+    models/
+    routes/
+    server.js
+```
+
+## Backend API Overview
+
+Base path: `/api/auth`
+
+| Method | Endpoint | Access | Description |
+|---|---|---|---|
+| POST | `/register` | Public | Register a new user |
+| POST | `/login` | Public | Authenticate user and issue JWT |
+| GET | `/me` | Private | Get current user profile |
+| PUT | `/profile` | Private | Update current user profile |
+
+Authentication header format:
+
+```http
+Authorization: Bearer <token>
+```
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 20 or newer
+- npm
+- React Native environment configured for Android/iOS
+- Android Studio (Android development)
+- Xcode (iOS development on macOS)
+- MongoDB instance (if backend auth is enabled)
+
+### 1. Install mobile dependencies
 
 ```bash
 npm install
 ```
 
-2. (Optional) Install and start the backend (requires MongoDB):
+### 2. Start Metro
+
+```bash
+npm start
+```
+
+### 3. Run mobile app
+
+```bash
+npm run android
+```
+
+```bash
+npm run ios
+```
+
+### 4. Optional backend setup
 
 ```bash
 cd backend
 npm install
-# set .env with MONGO_URI and JWT_SECRET
 node server.js
 ```
 
-3. Start Metro and run the app on Android or iOS:
+## Configuration
 
-```bash
-# Start metro
-npm start
+### Backend environment variables
 
-# Android (emulator/device)
-npm run android
+Create `backend/.env`:
 
-# iOS (simulator) — macOS only
-npm run ios
+```env
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_super_secret_key
+NODE_ENV=development
+PORT=5000
 ```
 
-Notes:
-- The mobile app's API base URL is configured in `src/api/client.ts`. For Android emulator use `10.0.2.2` to reach a backend running on your host machine.
-- If you do not run the backend, the app uses local AsyncStorage-based mock auth and offline flows.
+### Mobile API host
 
-## Environment & configuration
+The mobile app uses platform-aware API resolution in `src/api/client.ts`:
 
-- Create a `.env` file for the backend with at least:
-  - `MONGO_URI` — connection string for MongoDB
-  - `JWT_SECRET` — secret used to sign tokens (keep secure)
+- Android emulator: `http://10.0.2.2:5000/api`
+- iOS simulator: `http://localhost:5000/api`
 
-## Testing & linting
+If testing on a physical device, replace with your machine's reachable LAN IP.
 
-- Unit tests: `npm test` (Jest config is present)
-- Linting: `npm run lint`
+## Scripts
+
+### Root scripts
+
+| Command | Purpose |
+|---|---|
+| `npm start` | Start Metro bundler |
+| `npm run android` | Build and run Android app |
+| `npm run ios` | Build and run iOS app |
+| `npm run lint` | Run ESLint |
+| `npm test` | Run Jest tests |
+
+### Backend commands
+
+| Command | Purpose |
+|---|---|
+| `node server.js` | Start backend API server |
+
+## Testing and Quality
+
+- Unit testing via Jest (`__tests__/`).
+- Linting via ESLint.
+- Store-based architecture helps isolate business logic for future test coverage expansion.
+
+Suggested quality pipeline for CI:
+
+1. Install dependencies.
+2. Run lint (`npm run lint`).
+3. Run tests (`npm test`).
+4. Run platform build checks.
+
+## Roadmap
+
+- Add complete workout history filters and analytics.
+- Expand nutrition module with meal logging and daily totals.
+- Add stronger form-level and API-level validation.
+- Introduce e2e testing (Detox/Appium).
+- Add release automation and CI/CD workflows.
 
 ## Contributing
 
-- Follow the existing code patterns: small, focused components in `src/components`, screens under `src/screens`, business logic in `src/services`, and global state in `src/store` (Zustand).
-- Open an issue or create a branch per feature/bug and submit a PR against `main`.
-
-## Where to add screenshots
-
-Place screenshots in the `docs/images/` folder and commit them. The README references the following files as placeholders:
-
-- `docs/images/onboarding.png`
-- `docs/images/auth.png`
-- `docs/images/dashboard.png`
-- `docs/images/drawer.png`
-- `docs/images/settings.png`
-- `docs/images/workouts.png`
+1. Create a feature branch from `main`.
+2. Keep components small and reusable.
+3. Keep services focused on business logic.
+4. Keep global state in Zustand stores where shared.
+5. Open a pull request with clear testing notes.
 
 ## License
 
-This repository does not contain a license file by default. Add a `LICENSE` if you plan to publish or share the code.
-
----
-
-If you'd like, I can:
-
-- add the actual screenshots into `docs/images/` (you can provide them or I can capture running emulator frames),
-- open a PR for the README change, or
-- expand any section (e.g., API reference, data models, or contribution guidelines).
-
+No license file is currently included. Add a `LICENSE` file if you plan to distribute or open-source the project formally.
