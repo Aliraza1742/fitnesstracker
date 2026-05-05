@@ -84,19 +84,19 @@ FitnessTracker is designed to help users build consistent fitness habits through
 Use the following placeholders for product screenshots.
 
 - Onboarding  
-  ![Onboarding](assets/images/onboarding.png)
+  ![Onboarding](./src/assets/images/onboarding.png)
 - Authentication (Sign In / Sign Up)  
-  ![Authentication](assets/images/signup.png)
-  ![Authentication](assets/images/signin.png)
+  ![Authentication](./src/assets/images/Signup.png)
+  ![Authentication](./src/assets/images/signin.png)
 - Dashboard  
-  ![Dashboard](assets/images/dashboard.png)
+  ![Dashboard](./src/assets/images/dashboard.png)
 - Drawer Navigation  
-  ![Drawer](asssets/images/drawer.png)
+  ![Drawer](./src/assets/images/drawer.png)
 - Settings  
-  ![Settings](assets/images/settings.png)
+  ![Settings](./src/assets/images/settings.png)
 - Workout form 
-  ![Workout Details](assets/images/workoutform.png)
-  ![Workout Details](assets/images/workouts.png)
+  ![Workout Details](./src/assets/images/workoutform.png)
+  ![Workout Details](./src/assets/images/workouts.png)
 
 
 
