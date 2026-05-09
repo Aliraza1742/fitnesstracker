@@ -1,4 +1,4 @@
-# FitnessTracker
+# FitTrack
 
 Cross-platform React Native fitness application for workout tracking, nutrition lookup, progress visibility, and personalized fitness management.
 
